@@ -29,7 +29,8 @@
         <!-- License -->
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 
-				<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);AddCoreToPack</TargetsForTfmSpecificBuildOutput>
+        <!-- Include referenced project assemblies in the package output -->
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectsInPackage</TargetsForTfmSpecificBuildOutput>
 		</PropertyGroup>
 
     <ItemGroup> 
@@ -110,16 +111,9 @@
         <ProjectReference Include="..\UXDivers.Popups\UXDivers.Popups.csproj" PrivateAssets="all" />
     </ItemGroup>
 
-    <Target Name="AddCoreToPack">
-        <ItemGroup Condition="$(TargetFramework.Contains(net9.0))">
-            <BuildOutputInPackage
-                Include="$(MSBuildThisFileDirectory)..\UXDivers.Popups\bin\$(Configuration)\net9.0\UXDivers.Popups.dll"
-                TargetPath="UXDivers.Popups.dll" />
-        </ItemGroup>
-        <ItemGroup Condition="$(TargetFramework.Contains(net10.0))">
-            <BuildOutputInPackage
-                Include="$(MSBuildThisFileDirectory)..\UXDivers.Popups\bin\$(Configuration)\net10.0\UXDivers.Popups.dll"
-                TargetPath="UXDivers.Popups.dll" />
+    <Target Name="IncludeReferencedProjectsInPackage">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
         </ItemGroup>
     </Target>
 
