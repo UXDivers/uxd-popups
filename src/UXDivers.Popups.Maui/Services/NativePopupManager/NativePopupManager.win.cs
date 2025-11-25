@@ -258,8 +258,15 @@ internal partial class NativePopupManager
                 throw new InvalidOperationException("Root container Panel not found");
         }
 
+        /// <summary>
+        /// Used to prevent the default gray overlay of NavigationView.
+        /// </summary>
         protected class PopupNavigationView : NavigationView
         {
+            public PopupNavigationView() 
+            {
+                DefaultStyleKey = typeof(PopupNavigationView);
+            }
         }
 
         protected class PopupHost : Panel
