@@ -9,7 +9,7 @@
         <RootNamespace>UXDivers.Popups.Maui</RootNamespace>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 
-				<!-- Nuget -->
+		<!-- Nuget -->
         <PackageId>UXDivers.Popups.Maui</PackageId>
         <Version>0.9.0</Version>
         <Authors>UXDivers</Authors>
