@@ -20,6 +20,7 @@
         <PackageTags>maui, components, controls, ux, popups, premium, templates, xaml, ui, kit, uikit, android, ios, visual design</PackageTags>
         <Title>UXDivers Popups for .NET MAUI</Title>
         <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageDescription>A comprehensive popup controls library for .NET MAUI featuring 9 ready-to-use components (Toast, ActionSheets, Forms, Modals, and more), 10+ smooth animations, full MVVM support with dependency injection, dark/light theming, and cross-platform compatibility for iOS, Android, Windows, and Mac Catalyst.</PackageDescription>
         <PackageProjectUrl>https://uxdivers.com/popups</PackageProjectUrl>
         <RepositoryUrl>https://github.com/UXDivers/uxd-popups</RepositoryUrl>
@@ -35,6 +36,7 @@
 
     <ItemGroup> 
         <None Include=".\nuget-icon.png" PackagePath="icon.png" Pack="true" />
+        <None Include="..\..\README.md" PackagePath="README.md" Pack="true" />
     </ItemGroup>
     
     <ItemGroup>
