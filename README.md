@@ -67,7 +67,7 @@ Add the `DarkTheme` and `PopupStyles` resource dictionaries to your `App.xaml`:
 ```xml
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:uxd="clr-namespace:UXDivers.Popups.Maui.Controls;assembly=UXDivers.Popups.Maui.Controls"
+             xmlns:uxd="clr-namespace:UXDivers.Popups.Maui.Controls;assembly=UXDivers.Popups.Maui"
              x:Class="YourApp.App">
     <Application.Resources>
         <ResourceDictionary>
