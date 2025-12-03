@@ -117,7 +117,7 @@
     <Style x:Key="ListIconStyle" TargetType="Label" BasedOn="{ StaticResource IconStyle }">
         <Setter Property="VerticalTextAlignment" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="TextColor" Value="{DynamicResource IconBlue}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
     </Style>
     
     <!--  Card Style  -->
@@ -298,7 +298,7 @@
     <!-- FLOATER -->
     <Style x:Key="DefaultFloaterPopupStyle" TargetType="local:FloaterPopup" BasedOn="{ StaticResource PopupBaseStyle }">
         <Setter Property="IconText" Value="{ DynamicResource UXDPopupsCheckCircleIconButton }" />
-        <Setter Property="IconColor" Value="{DynamicResource IconBlue}" />
+        <Setter Property="IconColor" Value="{DynamicResource PrimaryColor}" />
         <Setter Property="Title" Value="Sample Title" />
         <Setter Property="Text" Value="Text goes here" />
         <Setter Property="BackgroundColor" Value="Transparent" />
@@ -503,7 +503,7 @@
     <Style x:Key="DefaultIconTextPopupStyle" TargetType="local:IconTextPopup" BasedOn="{ StaticResource PopupBaseStyle }">
         <Setter Property="CloseWhenBackgroundIsClicked" Value="False" />
         <Setter Property="IconText" Value="{ DynamicResource UXDPopupsCheckCircleIconButton }" />
-        <Setter Property="IconColor" Value="{DynamicResource IconBlue}" />
+        <Setter Property="IconColor" Value="{DynamicResource PrimaryColor}" />
         <Setter Property="Title" Value="Title Goes Here" />
         <Setter Property="Text" Value="Add some text here" />
         <Setter Property="ActionButtonText" Value="Button Text" />
@@ -691,7 +691,7 @@
                                 <!-- Icon -->
                                 <Label
                                     Text="{Binding Icon}"
-                                    TextColor="{Binding IconColor, TargetNullValue={StaticResource IconBlue}}"
+                                    TextColor="{Binding IconColor, TargetNullValue={StaticResource PrimaryColor}}"
                                     Style="{DynamicResource ListIconStyle}"
                                     />
                                 <!-- Text -->
@@ -961,7 +961,7 @@
     <Style x:Key="DefaultToastStyle" TargetType="local:Toast" BasedOn="{ StaticResource PopupBaseStyle }">
         <Setter Property="Title" Value="Toast Title" />
         <Setter Property="IconText" Value="{ DynamicResource UXDPopupsCheckCircleIconButton }" />
-        <Setter Property="IconColor" Value="{DynamicResource IconBlue}" />
+        <Setter Property="IconColor" Value="{DynamicResource PrimaryColor}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="AppearingAnimation" Value="{uxd:FadeInPopupAnimation Duration=400 }" /> 
         <Setter Property="DisappearingAnimation" Value="{ uxd:FadeOutPopupAnimation Duration=300}" />
