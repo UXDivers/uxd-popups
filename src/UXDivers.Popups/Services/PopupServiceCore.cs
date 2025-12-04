@@ -80,7 +80,7 @@ public class PopupServiceCore : IPopupService
 
 
      /// <inheritdoc />
-    public Task PushAsync<TPopup>(Dictionary<string, object?>? parameters = null) 
+    public Task PushAsync<TPopup>(Dictionary<string, object?>? parameters = null, bool waitUntilClosed = true) 
         where TPopup : class, IPopupPage
     {
         var popup = PopupRegistryService.Instance.CreatePopupInstance<TPopup>();
@@ -89,7 +89,7 @@ public class PopupServiceCore : IPopupService
             throw new InvalidOperationException($"Could not create popup instance of type {typeof(TPopup).Name}");
         }
 
-        return PushAsync(popup, parameters);
+        return PushAsync(popup, parameters, waitUntilClosed);
     }
     
     /// <inheritdoc />
@@ -106,7 +106,7 @@ public class PopupServiceCore : IPopupService
     }
 
     /// <inheritdoc/>
-    public Task PushAsync(IPopupPage popupPage, Dictionary<string, object?>? parameters = null)
+    public Task PushAsync(IPopupPage popupPage, Dictionary<string, object?>? parameters = null, bool waitUntilClosed = true)
     {
         CheckInitialized();
 
@@ -121,9 +121,16 @@ public class PopupServiceCore : IPopupService
             TaskSource = new TaskCompletionSource()
         };
 
+        TaskCompletionSource? waitUntilOpenedTCS = !waitUntilClosed ? new TaskCompletionSource() : null;
+
         IReadOnlyDictionary<string, object?> navParameters = parameters ?? _emptyParameters;
 
-        ShowPopup(stackItem, navParameters);
+        ShowPopup(stackItem, navParameters, waitUntilOpenedTCS);
+
+        if (waitUntilOpenedTCS != null)
+        {
+            return waitUntilOpenedTCS.Task;
+        }
 
         return stackItem.TaskSource.Task;
     }
@@ -179,7 +186,7 @@ public class PopupServiceCore : IPopupService
     /// </summary>
     /// <param name="stackItem">The popup stack item to display.</param>
     /// <param name="parameters">Navigation parameters.</param>
-    private void ShowPopup(PopupStackItemCore stackItem, IReadOnlyDictionary<string, object?> parameters)
+    private void ShowPopup(PopupStackItemCore stackItem, IReadOnlyDictionary<string, object?> parameters, TaskCompletionSource? waitUntilOpenedTCS = null)
     {
         // Assign ViewModel if service provider is available
         AssignViewModel(stackItem.PopupPage);
@@ -245,6 +252,9 @@ public class PopupServiceCore : IPopupService
                     stackItem.PopupPage.SetInteractionEnabled(true);
                 }
             }
+
+            // If the popup was requested to wait until opened, set the result now
+            _ = waitUntilOpenedTCS?.TrySetResult();
 
             // Raise PopupOpened event after animations complete
             PopupOpened?.Invoke(this, new PopupEventArgs(stackItem.PopupPage));
