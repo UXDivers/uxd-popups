@@ -12,8 +12,9 @@ public interface IPopupService
     /// </summary>
     /// <param name="popupPage">The popup page to display.</param>
     /// <param name="parameters">The navigation parameters to pass to the popup (optional).</param>
+    /// <param name="waitUntilClosed">If false, the task completes immediately after the popup is shown; otherwise, it completes when the popup is closed.</param>
     /// <returns>A Task that completes when the popup is closed.</returns>
-    Task PushAsync(IPopupPage popupPage, Dictionary<string, object?>? parameters = null);
+    Task PushAsync(IPopupPage popupPage, Dictionary<string, object?>? parameters = null, bool waitUntilClosed = true);
 
     /// <summary>
     /// Pushes a popup page with a result onto the stack and displays it.
@@ -30,8 +31,9 @@ public interface IPopupService
     /// </summary>
     /// <typeparam name="TPopup">The type of popup to display.</typeparam>
     /// <param name="parameters">The navigation parameters to pass to the popup (optional).</param>
+    /// <param name="waitUntilClosed">If false, the task completes immediately after the popup is shown; otherwise, it completes when the popup is closed.</param>
     /// <returns>A Task that completes when the popup is closed.</returns>
-    Task PushAsync<TPopup>(Dictionary<string, object?>? parameters = null) where TPopup : class, IPopupPage;
+    Task PushAsync<TPopup>(Dictionary<string, object?>? parameters = null, bool waitUntilClosed = true) where TPopup : class, IPopupPage;
 
     /// <summary>
     /// Pushes a popup with result of the specified type onto the stack and displays it.
