@@ -8,17 +8,6 @@ namespace UXDivers.Popups;
 public interface IPopupPage
 {
     /// <summary>
-    /// Gets or sets the background color of the popup overlay.
-    /// Framework-specific implementations should handle the actual color type.
-    /// </summary>
-    object BackgroundColor { get; set; }
-
-    /// <summary>
-    /// Gets or sets the opacity of the popup overlay.
-    /// </summary>
-    double? BackgroundOpacity { get; set; }
-
-    /// <summary>
     /// Gets or sets the animation to use when the popup appears.
     /// </summary>
     IBaseAnimation AppearingAnimation { get; set; }

@@ -180,11 +180,80 @@ namespace UXDivers.Popups.Maui
             set => SetValue(SafeAreaAsPaddingProperty, value);
         }
 
-        // Explicit interface implementation for BackgroundColor to avoid conflict with base class
-        object IPopupPage.BackgroundColor
+        /// <summary>
+        /// Bindable property for specifying popup corner radius.
+        /// </summary>
+        public static readonly BindableProperty PopupCornerRadiusProperty = BindableProperty.Create(
+            nameof(PopupCornerRadius),
+            typeof(CornerRadius),
+            typeof(PopupPage),
+            default(CornerRadius));
+
+        /// <summary>
+        /// Gets or sets the corner radius of the popup.
+        /// Default <see cref="CornerRadius" default />
+        /// </summary>
+        public CornerRadius PopupCornerRadius
         {
-            get => base.BackgroundColor;
-            set => base.BackgroundColor = value as Color ?? Colors.Transparent;
+            get => (CornerRadius)GetValue(PopupCornerRadiusProperty);
+            set => SetValue(PopupCornerRadiusProperty, value);
+        }
+
+        /// <summary>
+        /// Bindable property for specifying popup background.
+        /// </summary>
+        public static readonly BindableProperty PopupBackgroundProperty = BindableProperty.Create(
+            nameof(PopupBackground),
+            typeof(Brush),
+            typeof(PopupPage),
+            null);
+
+        /// <summary>
+        /// Gets or sets the background of the popup.
+        /// Default is null.
+        /// </summary>
+        public Brush? PopupBackground
+        {
+            get => (Brush?)GetValue(PopupBackgroundProperty);
+            set => SetValue(PopupBackgroundProperty, value);
+        }
+
+        /// <summary>
+        /// Bindable property for specifying popup border brush.
+        /// </summary>
+        public static readonly BindableProperty PopupBorderBrushProperty = BindableProperty.Create(
+            nameof(PopupBorderBrush),
+            typeof(Brush),
+            typeof(PopupPage),
+            null);
+
+        /// <summary>
+        /// Gets or sets the border brush of the popup.
+        /// Default is null.
+        /// </summary>
+        public Brush? PopupBorderBrush
+        {
+            get => (Brush?)GetValue(PopupBorderBrushProperty);
+            set => SetValue(PopupBorderBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Bindable property for specifying popup border brush.
+        /// Default <see cref="Thickness" default />
+        /// </summary>
+        public static readonly BindableProperty PopupBorderThicknessProperty = BindableProperty.Create(
+            nameof(PopupBorderThickness),
+            typeof(Thickness),
+            typeof(PopupPage),
+            default(Thickness));
+
+        /// <summary>
+        /// Gets or sets the border thickness of the popup.
+        /// </summary>
+        public Thickness PopupBorderThickness
+        {
+            get => (Thickness)GetValue(PopupBorderThicknessProperty);
+            set => SetValue(PopupBorderThicknessProperty, value);
         }
 
         /// <summary>

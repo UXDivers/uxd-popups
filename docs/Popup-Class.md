@@ -25,6 +25,10 @@ This page explains the core popup classes in UXDivers Popups: `PopupPage` and `P
 |----------|------|---------|-------------|
 | `BackgroundOpacity` | `double?` | null | Opacity of the popup overlay (0-1) |
 | `BackgroundColor` | `Color` | Transparent | Background color of the popup overlay |
+| `PopupCornerRadius` | `default(CornerRadius)` | 0 | Gets or sets the corner radius of the popup |
+| `PopupBackground` | `Brush` | null | Gets or sets the background of the popup |
+| `PopupBorderBrush` | `Brush` | null | Gets or sets the border brush of the popup |
+| `PopupBorderThickness` | `default(Thickness)` | 0 | Gets or sets the border thickness of the popup |
 | `AppearingAnimation` | `IBaseAnimation` | null | Animation when popup appears |
 | `DisappearingAnimation` | `IBaseAnimation` | null | Animation when popup disappears |
 | `CloseWhenBackgroundIsClicked` | `bool` | false | Auto-close popup when background is tapped |
