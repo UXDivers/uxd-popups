@@ -219,10 +219,8 @@
     
     <!-- ACTION MODAL -->
     <Style x:Key="DefaultActionModalPopupStyle" TargetType="local:ActionModalPopup" BasedOn="{ StaticResource PopupBaseStyle }">
-        <Setter Property="Title" Value="Sample Title" />
         <Setter Property="CloseButtonIconText" Value="{DynamicResource UXDPopupsCloseIconButton}" />
         <Setter Property="CloseButtonIconColor" Value="{DynamicResource TextColor}" />
-        <Setter Property="ActionButtonText" Value="Do Something" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundColor}" />
         <Setter Property="PopupCornerRadius" Value="{DynamicResource CornerRadiusXBig}" />
         <Setter Property="ControlTemplate">
@@ -305,8 +303,6 @@
     <Style x:Key="DefaultFloaterPopupStyle" TargetType="local:FloaterPopup" BasedOn="{ StaticResource PopupBaseStyle }">
         <Setter Property="IconText" Value="{ DynamicResource UXDPopupsCheckCircleIconButton }" />
         <Setter Property="IconColor" Value="{DynamicResource PrimaryColor}" />
-        <Setter Property="Title" Value="Sample Title" />
-        <Setter Property="Text" Value="Text goes here" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundTertiaryColor}" />
         <Setter Property="PopupCornerRadius" Value="{DynamicResource CornerRadiusBig}" />
@@ -380,11 +376,6 @@
 
     <!-- FORM -->
     <Style x:Key="DefaultFormPopupStyle" TargetType="local:FormPopup" BasedOn="{ StaticResource PopupBaseStyle }">
-        <Setter Property="Title" Value="Form Title" />
-        <Setter Property="Text" Value="Subtitle goes here" />
-        <Setter Property="ActionButtonText" Value="Button Text" />
-        <Setter Property="SecondaryActionText" Value="Don’t have an account?" />
-        <Setter Property="SecondaryActionLinkText" Value="Sign Up" />
         <Setter Property="AppearingAnimation" Value="{ uxd:MoveInPopupAnimation MoveDirection=Bottom, Duration=500, Easing=CubicOut, TranslationY=150 }" />
         <Setter Property="DisappearingAnimation" Value="{ uxd:MoveOutPopupAnimation MoveDirection=Top, Duration=500, Easing=CubicIn }" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundSecondaryColor}" />
@@ -481,7 +472,7 @@
                     <Button
                         Grid.Row="2"
                         Style="{DynamicResource PrimaryActionButtonStyle}"
-                        Text="Sign In"
+                        Text="{ Binding ActionButtonText, Source={RelativeSource TemplatedParent}}"
                         Command="{Binding ActionButtonCommand, Source={RelativeSource TemplatedParent}}"
                         IsVisible="{Binding ShowActionButton, Source={RelativeSource TemplatedParent}}"
                         />
@@ -493,11 +484,13 @@
                         >
                         <!-- Text -->
                         <Label
+                            IsVisible="{Binding SecondaryActionText, Source={RelativeSource TemplatedParent}, Converter={StaticResource IsNotEmptyStringConverter}}"
                             Text="{Binding SecondaryActionText, Source={RelativeSource TemplatedParent}}"
                             Style="{DynamicResource MainSubTitleStyle}"
                             />
                         <!-- Link -->
                         <Label
+                            IsVisible="{Binding SecondaryActionLinkText, Source={RelativeSource TemplatedParent}, Converter={StaticResource IsNotEmptyStringConverter}}"
                             Text="{Binding SecondaryActionLinkText, Source={RelativeSource TemplatedParent}}"
                             Style="{DynamicResource MainSubTitleStyle}"
                             TextColor="{DynamicResource PrimaryColor}"
@@ -518,9 +511,6 @@
         <Setter Property="CloseWhenBackgroundIsClicked" Value="False" />
         <Setter Property="IconText" Value="{ DynamicResource UXDPopupsCheckCircleIconButton }" />
         <Setter Property="IconColor" Value="{DynamicResource PrimaryColor}" />
-        <Setter Property="Title" Value="Title Goes Here" />
-        <Setter Property="Text" Value="Add some text here" />
-        <Setter Property="ActionButtonText" Value="Button Text" />
         <Setter Property="AppearingAnimation" Value="{ uxd:MoveInPopupAnimation MoveDirection=Right, Easing=SinIn, Duration=300 }" />
         <Setter Property="DisappearingAnimation" Value="{ uxd:MoveOutPopupAnimation MoveDirection=Left, Easing=SinOut, Duration=300 }" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundSecondaryColor}" />
@@ -589,10 +579,8 @@
     </Style>
     
     <Style x:Key="DefaultListActionPopupStyle" TargetType="local:ListActionPopup" BasedOn="{ StaticResource PopupBaseStyle }">
-        <Setter Property="Title" Value="Sample Title" />
         <Setter Property="CloseButtonIconText" Value="{DynamicResource UXDPopupsCloseIconButton}" />
         <Setter Property="CloseButtonIconColor" Value="{DynamicResource TextColor}" />
-        <Setter Property="ActionButtonText" Value="Do Something" />
         <Setter Property="AppearingAnimation" Value="{ uxd:FadeInPopupAnimation Duration=300 }" />
         <Setter Property="DisappearingAnimation" Value="{ uxd:FadeOutPopupAnimation Duration=200 }" />
         <Setter Property="ItemDataTemplate">
@@ -686,7 +674,6 @@
 
     <!-- OPTIONS SHEET -->
     <Style x:Key="DefaultOptionSheetPopupStyle" TargetType="local:OptionSheetPopup" BasedOn="{ StaticResource PopupBaseStyle }">
-        <Setter Property="Title" Value="Title" />
         <Setter Property="CloseButtonIconText" Value="{DynamicResource UXDPopupsCloseIconButton}" />
         <Setter Property="CloseButtonIconColor" Value="{DynamicResource TextColor}" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundColor}" />
@@ -816,10 +803,6 @@
 
     <!-- SIMPLE ACTION -->
     <Style x:Key="DefaultSimpleActionPopupStyle" TargetType="local:SimpleActionPopup" BasedOn="{ StaticResource PopupBaseStyle }">
-        <Setter Property="Title" Value="Sample Title" />
-        <Setter Property="Text" Value="Additional text goes here" />
-        <Setter Property="ActionButtonText" Value="Action" />
-        <Setter Property="SecondaryActionButtonText" Value="Action" />
         <Setter Property="AppearingAnimation" Value="{ uxd:MoveInPopupAnimation MoveDirection=Right, Easing=SpringOut, Duration=400 }" />
         <Setter Property="DisappearingAnimation" Value="{ uxd:StoryboardAnimation 
             Strategy=RunAllSequentially,       
@@ -898,8 +881,6 @@
 
     <!-- SIMPLE TEXT -->
     <Style x:Key="DefaultSimpleTextPopupStyle" TargetType="local:SimpleTextPopup" BasedOn="{ StaticResource PopupBaseStyle }">
-        <Setter Property="Title" Value="Sample Title" />
-        <Setter Property="Text" Value="Additional text goes here" />
         <Setter Property="CloseButtonIconText" Value="{DynamicResource UXDPopupsCloseIconButton}" />
         <Setter Property="CloseButtonIconColor" Value="{DynamicResource TextColor}" />
         <Setter Property="CloseWhenBackgroundIsClicked" Value="False" />
@@ -989,7 +970,6 @@
 
     <!-- TOAST -->
     <Style x:Key="DefaultToastStyle" TargetType="local:Toast" BasedOn="{ StaticResource PopupBaseStyle }">
-        <Setter Property="Title" Value="Toast Title" />
         <Setter Property="IconText" Value="{ DynamicResource UXDPopupsCheckCircleIconButton }" />
         <Setter Property="IconColor" Value="{DynamicResource PrimaryColor}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
