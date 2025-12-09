@@ -49,6 +49,13 @@ internal partial class NativePopupManager : INativePopupManager
     {
         if (popup is PopupPage popupPage)
         {
+            if (Application.Current == null || Application.Current.Windows.Count == 0)
+            {
+                throw new NullReferenceException("Application.Current or its windows are not properly initialized");
+            }
+
+            popupPage.Parent = Application.Current?.Windows[0];
+
             return ShowNativeViewAsync(popupPage);
         }
         
