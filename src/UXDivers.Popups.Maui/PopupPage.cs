@@ -191,7 +191,7 @@ namespace UXDivers.Popups.Maui
 
         /// <summary>
         /// Gets or sets the corner radius of the popup.
-        /// Default <see cref="CornerRadius" default />
+        /// Default is <see cref="CornerRadius"/> default value.
         /// </summary>
         public CornerRadius PopupCornerRadius
         {
@@ -238,8 +238,8 @@ namespace UXDivers.Popups.Maui
         }
 
         /// <summary>
-        /// Bindable property for specifying popup border brush.
-        /// Default <see cref="Thickness" default />
+        /// Bindable property for specifying popup border thickness.
+        /// Default is <see cref="Thickness"/> default value.
         /// </summary>
         public static readonly BindableProperty PopupBorderThicknessProperty = BindableProperty.Create(
             nameof(PopupBorderThickness),
