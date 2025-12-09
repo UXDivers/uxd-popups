@@ -11,7 +11,7 @@
 
 		<!-- Nuget -->
         <PackageId>UXDivers.Popups.Maui</PackageId>
-        <Version>0.9.0</Version>
+        <Version>0.9.1</Version>
         <Authors>UXDivers</Authors>
         <Company>UXDivers</Company>
         <Summary>A comprehensive popup controls library for .NET MAUI featuring 9 ready-to-use components (Toast, ActionSheets, Forms, Modals, and more), 10+ smooth animations, full MVVM support with dependency injection, dark/light theming, and cross-platform compatibility for iOS, Android, Windows, and Mac Catalyst.</Summary>
