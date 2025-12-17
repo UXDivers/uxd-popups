@@ -20,6 +20,8 @@
 
     <converters:CornerRadiusToStrokeShapeConverter x:Key="PopupCornerRadiusToStrokeShapeConverter" />
 
+    <converters:PopupVerticalPositionToLayoutOptionsConverter x:Key="PopupVerticalPositionToLayoutOptionsConverter" />
+
     <!-- ############################################ -->
 
     <!-- ############   BASIC STYLES   ############## -->
@@ -316,7 +318,7 @@
                     Margin="{DynamicResource AirSpacingSmallTop}"
                     ColumnSpacing="{DynamicResource SpacingSmall}"
                     Padding="16"
-                    VerticalOptions="Start"
+                    VerticalOptions="{Binding VerticalPosition, Source={RelativeSource TemplatedParent}, Converter={StaticResource PopupVerticalPositionToLayoutOptionsConverter}}"
                     WidthRequest="{OnIdiom Default=-1, Tablet=400 , Desktop=400}"
                     >
                     <!-- Popup Background -->
@@ -988,7 +990,7 @@
                     ColumnDefinitions="Auto,*"
                     ColumnSpacing="{DynamicResource SpacingSmall}"
                     Padding="24,16"
-                    VerticalOptions="Start"
+                    VerticalOptions="{Binding VerticalPosition, Source={RelativeSource TemplatedParent}, Converter={StaticResource PopupVerticalPositionToLayoutOptionsConverter}}"
                     HorizontalOptions="Center"
                     IgnoreSafeArea="True"
                     >
