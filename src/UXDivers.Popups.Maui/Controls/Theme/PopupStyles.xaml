@@ -596,12 +596,13 @@
                 <!-- Main Container -->
                 <Grid
                     x:DataType="local:ListActionPopup"
-                    RowDefinitions="Auto,Auto,Auto"
+                    RowDefinitions="Auto,*,Auto"
                     Margin="{DynamicResource AirSpacing}"
                     RowSpacing="{DynamicResource SpacingMedium}"
                     Padding="{DynamicResource PopupAirSpacing}"
                     VerticalOptions="Center"
                     WidthRequest="{OnIdiom Default=-1, Tablet=400 , Desktop=400}"
+                    MaximumHeightRequest="{OnIdiom Default=500, Tablet=600, Desktop=600}"
                     >
                     <!-- Decoration Background -->
                     <BoxView
@@ -649,13 +650,14 @@
                     </Grid>
                     
                     <!-- Content -->
-                    <VerticalStackLayout
-                        x:DataType="local:ListActionPopup"
-                        Grid.Row="1"
-                        Spacing="{DynamicResource SpacingMedium}"
-                        BindableLayout.ItemsSource="{ Binding ItemsSource, Source={RelativeSource TemplatedParent}}"
-                        BindableLayout.ItemTemplate="{ Binding ItemDataTemplate, Source={RelativeSource TemplatedParent}}"
-                        />
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout
+                            x:DataType="local:ListActionPopup"
+                            Spacing="{DynamicResource SpacingMedium}"
+                            BindableLayout.ItemsSource="{ Binding ItemsSource, Source={RelativeSource TemplatedParent}}"
+                            BindableLayout.ItemTemplate="{ Binding ItemDataTemplate, Source={RelativeSource TemplatedParent}}"
+                            />
+                    </ScrollView>
                     
                     <!-- Action Button -->
                     <Button
@@ -720,9 +722,10 @@
                     x:DataType="local:OptionSheetPopup"
                     WidthRequest="{OnIdiom Default=-1, Tablet=400 , Desktop=400}"
                     VerticalOptions="{OnIdiom Default=End, Tablet=Center , Desktop=Center}"
-                    RowDefinitions="Auto,Auto"
+                    RowDefinitions="Auto,*"
                     RowSpacing="{DynamicResource SpacingMedium}"
                     Padding="{DynamicResource PopupAirSpacing}"
+                    MaximumHeightRequest="{OnIdiom Default=500, Tablet=600, Desktop=600}"
                     >
                     <!-- Popup Background -->
                     <Border
@@ -771,30 +774,31 @@
                             StrokeLineCap="Round"/>
                     </Grid>                    
                     <!-- Item List -->
-                    <VerticalStackLayout
-                        Grid.Row="1"
-                        BindableLayout.ItemsSource="{Binding Groups, Source={RelativeSource TemplatedParent}}"
-                        Spacing="{DynamicResource SpacingMedium}"
-                        >
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <!-- Item Group Background Wrapper -->
-                                <Border
-                                    x:DataType="local:OptionSheetGroup"
-                                    BackgroundColor="{DynamicResource BackgroundSecondaryColor}"
-                                    StrokeShape="RoundRectangle 12"
-                                    Padding="16,12"
-                                    >
-                                    <!-- Item -->
-                                    <VerticalStackLayout
-                                        Spacing="{DynamicResource SpacingMedium}"
-                                        BindableLayout.ItemsSource="{Binding Items}"
-                                        uxd:BindableLayoutProperties.FlexibleItemTemplate="{Binding ItemDataTemplate, Source={RelativeSource TemplatedParent}, x:DataType=local:OptionSheetPopup}"
-                                        />
-                                </Border>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </VerticalStackLayout>
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout
+                            BindableLayout.ItemsSource="{Binding Groups, Source={RelativeSource TemplatedParent}}"
+                            Spacing="{DynamicResource SpacingMedium}"
+                            >
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <!-- Item Group Background Wrapper -->
+                                    <Border
+                                        x:DataType="local:OptionSheetGroup"
+                                        BackgroundColor="{DynamicResource BackgroundSecondaryColor}"
+                                        StrokeShape="RoundRectangle 12"
+                                        Padding="16,12"
+                                        >
+                                        <!-- Item -->
+                                        <VerticalStackLayout
+                                            Spacing="{DynamicResource SpacingMedium}"
+                                            BindableLayout.ItemsSource="{Binding Items}"
+                                            uxd:BindableLayoutProperties.FlexibleItemTemplate="{Binding ItemDataTemplate, Source={RelativeSource TemplatedParent}, x:DataType=local:OptionSheetPopup}"
+                                            />
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </ScrollView>
                 </Grid>
             </ControlTemplate>
         </Setter>
