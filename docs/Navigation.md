@@ -339,3 +339,23 @@ public partial class MyResultPopup : PopupResultPage<string>
     }
 }
 ```
+
+---
+
+## Android Back Button
+
+On Android, pressing the system back button (or performing the back gesture) automatically closes the topmost popup. This behavior is **enabled by default** when you call `UseUXDiversPopups()`.
+
+When the back button is pressed:
+1. If there are popups on the navigation stack, the topmost popup is closed via `PopAsync()`.
+2. If no popups are open, the back button behaves normally (system navigation).
+
+### Disabling Android Back Button Close
+
+To disable this behavior, pass `closePopupOnBackAndroid: false` when configuring the library:
+
+```csharp
+builder
+    .UseMauiApp<App>()
+    .UseUXDiversPopups(closePopupOnBackAndroid: false);
+```

@@ -720,7 +720,7 @@ Extension methods for MAUI app configuration.
 
 | Method | Returns | Description |
 |--------|---------|-------------|
-| `UseUXDiversPopups(this MauiAppBuilder)` | `MauiAppBuilder` | Configure UXD Popups (convenience method) |
+| `UseUXDiversPopups(this MauiAppBuilder, bool closePopupOnBackAndroid = true)` | `MauiAppBuilder` | Configure UXD Popups. On Android, closes the topmost popup on back button press by default. |
 
 ---
 
