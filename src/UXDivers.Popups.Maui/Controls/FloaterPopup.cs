@@ -1,5 +1,3 @@
-using UXDivers.Popups.Maui.Animations;
-
 namespace UXDivers.Popups.Maui.Controls;
 
 /// <summary>
@@ -71,8 +69,7 @@ public class FloaterPopup : PopupPage
         nameof(VerticalPosition),
         typeof(VerticalPosition),
         typeof(FloaterPopup),
-        VerticalPosition.Top,
-        propertyChanged: OnVerticalPositionChanged);
+        VerticalPosition.Top);
 
     /// <summary>
     /// Gets or sets the vertical position of the popup on the screen.
@@ -83,39 +80,4 @@ public class FloaterPopup : PopupPage
         get { return (VerticalPosition)GetValue(VerticalPositionProperty); }
         set { SetValue(VerticalPositionProperty, value); }
     }
-
-    public FloaterPopup()
-    {
-        UpdateAnimationsForPosition(VerticalPosition);
-    }
-
-    private static void OnVerticalPositionChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if (bindable is FloaterPopup floater && newValue is VerticalPosition position)
-        {
-            floater.UpdateAnimationsForPosition(position);
-        }
-    }
-
-    private void UpdateAnimationsForPosition(VerticalPosition position)
-    {
-        var moveDirection = position == VerticalPosition.Bottom ? MoveDirection.Top : MoveDirection.Bottom;
-        
-        AppearingAnimation = CreateMoveInAnimation(moveDirection);
-        DisappearingAnimation = CreateMoveOutAnimation(moveDirection);
-    }
-
-    private static MoveInPopupAnimation CreateMoveInAnimation(MoveDirection direction) => new()
-    {
-        MoveDirection = direction,
-        Duration = 300,
-        Easing = EasingType.CubicOut
-    };
-
-    private static MoveOutPopupAnimation CreateMoveOutAnimation(MoveDirection direction) => new()
-    {
-        MoveDirection = direction,
-        Duration = 400,
-        Easing = EasingType.CubicIn
-    };
 }
