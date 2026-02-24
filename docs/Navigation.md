@@ -157,6 +157,75 @@ For detailed information on registering popups with DI, see the [Dependency Inje
 
 ---
 
+## The `waitUntilClosed` Parameter
+
+By default, `PushAsync` returns a `Task` that completes when the popup is **closed** (i.e., when `PopAsync` is called). The `waitUntilClosed` parameter lets you change this behavior so the `Task` completes as soon as the popup is **fully visible** instead.
+
+### Behavior
+
+- **`waitUntilClosed: true` (default)** — The `await` blocks until `PopAsync` is called on the popup. Use this when your code needs to wait for the user to interact with or dismiss the popup before continuing.
+- **`waitUntilClosed: false`** — The `await` completes after the popup's appearing animation finishes. Code after the `await` runs while the popup remains open. Use this for fire-and-forget scenarios like toasts or notifications.
+
+### Supported Methods
+
+The `waitUntilClosed` parameter is available on `PushAsync` overloads that do **not** return a result:
+
+```csharp
+// Instance-based
+Task PushAsync(IPopupPage popupPage, Dictionary<string, object?>? parameters = null, bool waitUntilClosed = true);
+
+// Type-based (DI)
+Task PushAsync<TPopup>(Dictionary<string, object?>? parameters = null, bool waitUntilClosed = true);
+```
+
+It is **not** available on result popups (`PushAsync<T>(IPopupResultPage<T>, ...)` and `PushAsync<TPopupResult, TResult>(...)`), because these must wait until the popup is closed in order to return the result.
+
+### Examples
+
+#### Waiting for the popup to close (default)
+
+```csharp
+var popup = new SimpleActionPopup
+{
+    Title = "Confirm Delete?",
+    Text = "This action cannot be undone.",
+    ActionButtonText = "Delete",
+    SecondaryActionButtonText = "Cancel"
+};
+
+// Code pauses here until the user closes the popup
+await IPopupService.Current.PushAsync(popup);
+
+// This runs only after the popup is dismissed
+Console.WriteLine("User closed the popup");
+```
+
+#### Continuing without waiting for close
+
+```csharp
+var toast = new Toast
+{
+    Title = "Changes saved successfully!",
+    IconColor = Colors.Green
+};
+
+// Code continues after the toast is visible (animation finished)
+await IPopupService.Current.PushAsync(toast, waitUntilClosed: false);
+
+// Auto-dismiss after a delay
+await Task.Delay(2000);
+await IPopupService.Current.PopAsync(toast);
+```
+
+### Limitations
+
+When you use `waitUntilClosed: false`, there is no built-in way to later `await` when that specific popup closes. If you need to react to the popup closing, you can either:
+
+- Call `PopAsync` yourself at the appropriate time (as shown in the toast example above).
+- Subscribe to lifecycle events like `PopupClosed` on `IPopupService` or override `OnPopupClosedAsync` on the popup page.
+
+---
+
 ## Navigation Parameters
 
 Navigation parameters allow you to pass data to popups when showing them.

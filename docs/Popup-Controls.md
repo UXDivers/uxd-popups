@@ -30,7 +30,8 @@ var toast = new Toast
     IconColor = Colors.Green
 };
 
-await IPopupService.Current.PushAsync(toast);
+// Show toast without waiting for it to close
+await IPopupService.Current.PushAsync(toast, waitUntilClosed: false);
 
 // Auto-dismiss after delay
 await Task.Delay(2000);
