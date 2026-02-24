@@ -59,6 +59,8 @@ public static class MauiProgram
 }
 ```
 
+> **Android Back Button:** By default, pressing the Android back button closes the topmost popup. To disable this behavior, pass `closePopupOnBackAndroid: false` to `UseUXDiversPopups()`. See [Navigation - Android Back Button](Navigation.md#android-back-button) for details.
+
 ### 3. Add Theme Resources to App.xaml
 
 Add the `DarkTheme` and `PopupStyles` resource dictionaries to your `App.xaml`:
