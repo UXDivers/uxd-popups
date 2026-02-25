@@ -37,6 +37,7 @@ This page explains the core popup classes in UXDivers Popups: `PopupPage` and `P
 | `BackgroundInputTransparent` | `bool` | false | Allow taps to pass through the background |
 | `DisableWhenIsAnimating` | `bool` | true | Disable interactions during animations |
 | `SafeAreaAsPadding` | `SafeAreaAsPadding` | Top\|Right\|Left\|Bottom | Which edges respect safe area insets |
+| `AvoidKeyboard` | `bool` | false | Automatically adjust the position of the popup content to avoid the virtual keyboard |
 | `PopupContent` | `View` | null | The content of the popup |
 
 ---
@@ -232,6 +233,51 @@ The default value is `Top | Right | Left`, which applies safe area to top and si
 | Bottom Sheet | `Bottom` or `All` |
 | Centered Dialog | `All` or default |
 | Fullscreen Modal | `All` |
+
+---
+
+## AvoidKeyboard Property
+
+The `AvoidKeyboard` property controls whether the popup automatically adjusts the position of its content when the virtual keyboard appears. This is especially useful for popups that contain text inputs (like login forms or search fields), ensuring the keyboard doesn't cover the popup content.
+
+> **Important:** `AvoidKeyboard` must be set **before** pushing the popup with `PushAsync`. Changing it after the popup is already visible has no effect.
+
+### Usage
+
+```xml
+<uxd:PopupPage AvoidKeyboard="True">
+    <!-- Popup content with text inputs -->
+</uxd:PopupPage>
+```
+
+### Behavior Comparison
+
+| `AvoidKeyboard="True"` | `AvoidKeyboard="False"` (default) |
+|:-:|:-:|
+| ![AvoidKeyboard True](images/avoidkeyboard-true.png) | ![AvoidKeyboard False](images/avoidkeyboard-false.png) |
+| The popup shifts up so all content remains visible above the keyboard. | The keyboard overlaps the popup content, potentially hiding input fields and buttons. |
+
+### How It Works
+
+When `AvoidKeyboard` is enabled, the library creates a platform-specific keyboard observer that shifts the popup content upward using `TranslationY`:
+
+- **iOS:** Listens for `UIKeyboard.WillShow` and `UIKeyboard.WillHide` notifications and animates the position change in sync with the keyboard animation.
+- **Android:** Uses `WindowInsetsCompat` to detect IME (keyboard) insets and adjusts the content position accordingly.
+
+The translation is applied directly to the popup content without affecting padding or layout. When the keyboard is dismissed, the translation is removed automatically.
+
+### Interaction with SafeAreaAsPadding
+
+When both `AvoidKeyboard="True"` and `SafeAreaAsPadding` includes `Bottom`, the keyboard observer automatically subtracts the safe area bottom inset from the keyboard height to avoid double-offsetting. You don't need to handle this manually.
+
+```xml
+<!-- Both work correctly together -->
+<uxd:PopupPage
+    SafeAreaAsPadding="All"
+    AvoidKeyboard="True">
+    <!-- Content -->
+</uxd:PopupPage>
+```
 
 ---
 

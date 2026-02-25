@@ -378,6 +378,7 @@
 
     <!-- FORM -->
     <Style x:Key="DefaultFormPopupStyle" TargetType="local:FormPopup" BasedOn="{ StaticResource PopupBaseStyle }">
+        <Setter Property="AvoidKeyboard" Value="True" />
         <Setter Property="AppearingAnimation" Value="{ uxd:MoveInPopupAnimation MoveDirection=Bottom, Duration=500, Easing=CubicOut, TranslationY=150 }" />
         <Setter Property="DisappearingAnimation" Value="{ uxd:MoveOutPopupAnimation MoveDirection=Top, Duration=500, Easing=CubicIn }" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundSecondaryColor}" />

@@ -257,6 +257,25 @@ namespace UXDivers.Popups.Maui
         }
 
         /// <summary>
+        /// Bindable property indicating whether the popup should adjust its position to avoid the virtual keyboard.
+        /// </summary>
+        public static readonly BindableProperty AvoidKeyboardProperty = BindableProperty.Create(
+            nameof(AvoidKeyboard),
+            typeof(bool),
+            typeof(PopupPage),
+            false);
+
+        /// <summary>
+        /// Gets or sets whether the popup should automatically adjust the position of its content to avoid being obscured by the virtual keyboard.
+        /// Default is false. When enabled, the popup adjusts its content position when the keyboard appears or disappears.
+        /// </summary>
+        public bool AvoidKeyboard
+        {
+            get => (bool)GetValue(AvoidKeyboardProperty);
+            set => SetValue(AvoidKeyboardProperty, value);
+        }
+
+        /// <summary>
         /// Gets or sets the content of the popup page.
         /// </summary>
         public View? PopupContent
@@ -378,6 +397,37 @@ namespace UXDivers.Popups.Maui
         public virtual void SetInteractionEnabled(bool enabled)
         {
             InputTransparent = !enabled;
+        }
+
+        private double _keyboardOffset;
+
+        /// <summary>
+        /// Updates the popup content's vertical translation to account for the virtual keyboard height.
+        /// Removes any previously applied keyboard offset and applies the new value.
+        /// </summary>
+        /// <param name="keyboardHeight">The keyboard height in device-independent pixels.</param>
+        internal void UpdateKeyboardOffset(double keyboardHeight)
+        {
+            var content = ActualContent;
+            if (content == null) return;
+
+            if (keyboardHeight <= 0)
+            {
+                content.TranslationY += _keyboardOffset;
+                _keyboardOffset = 0;
+                return;
+            }
+
+            var containerHeight = Height;
+            if (containerHeight <= 0) return;
+
+            // Content's natural bottom (undo our existing keyboard offset)
+            var naturalBottom = content.Bounds.Bottom + content.TranslationY + _keyboardOffset;
+            var keyboardTop = containerHeight - keyboardHeight;
+            var overlap = Math.Max(0, naturalBottom - keyboardTop);
+
+            content.TranslationY = content.TranslationY + _keyboardOffset - overlap;
+            _keyboardOffset = overlap;
         }
 
         private void UpdateBackgroundColorOpacity()

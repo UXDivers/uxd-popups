@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Maui.Platform;
 using UIKit;
 
@@ -7,6 +8,8 @@ namespace UXDivers.Popups.Maui;
 /// Handles the display and removal of native popups on iOS.
 internal partial class NativePopupManager
 {
+    private static readonly ConditionalWeakTable<UIView, KeyboardObserver> _keyboardObservers = new();
+
     /// <summary>
     /// Displays a native view for the given popup page.
     /// </summary>
@@ -75,6 +78,13 @@ internal partial class NativePopupManager
         // Add the native popup to the window
         window.AddSubview(nativePopup);
 
+        if (popup.AvoidKeyboard)
+        {
+            var keyboardObserver = new KeyboardObserver(popup);
+            keyboardObserver.Start();
+            _keyboardObservers.AddOrUpdate(nativePopup, keyboardObserver);
+        }
+
         return Task.FromResult<object>(nativePopup);
     }
 
@@ -112,6 +122,14 @@ internal partial class NativePopupManager
         if (nativeView.Handle == IntPtr.Zero)
         {
             return Task.CompletedTask; // The view is already disposed
+        }
+
+        // Stop keyboard observer if active
+        if (_keyboardObservers.TryGetValue(nativeView, out var keyboardObserver))
+        {
+            keyboardObserver.Stop();
+            keyboardObserver.Dispose();
+            _keyboardObservers.Remove(nativeView);
         }
 
         // Remove the native view from its superview and dispose of it

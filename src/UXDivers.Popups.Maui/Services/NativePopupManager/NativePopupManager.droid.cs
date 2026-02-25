@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Android.Views;
 using Microsoft.Maui.Platform;
 
@@ -7,6 +8,8 @@ namespace UXDivers.Popups.Maui;
 /// Handles the display and removal of native popups on Android.
 internal partial class NativePopupManager
 {
+    private static readonly ConditionalWeakTable<Android.Views.View, KeyboardObserver> _keyboardObservers = new();
+
     /// <summary>
     /// Displays a native view for the given popup page.
     /// </summary>
@@ -113,6 +116,13 @@ internal partial class NativePopupManager
 
         rootView.AddView(nativeView, layoutParams);
 
+        if (popup.AvoidKeyboard)
+        {
+            var keyboardObserver = new KeyboardObserver(popup);
+            keyboardObserver.Start(nativeView);
+            _keyboardObservers.AddOrUpdate(nativeView, keyboardObserver);
+        }
+
         return Task.FromResult<object>(nativeView);
     }
 
@@ -135,6 +145,14 @@ internal partial class NativePopupManager
         {
             // The view has already been disposed
             return Task.CompletedTask;
+        }
+
+        // Stop keyboard observer if active
+        if (_keyboardObservers.TryGetValue(nativeView, out var keyboardObserver))
+        {
+            keyboardObserver.Stop();
+            keyboardObserver.Dispose();
+            _keyboardObservers.Remove(nativeView);
         }
 
         // Remove the native view from its parent and dispose of it
