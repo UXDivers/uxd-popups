@@ -144,6 +144,7 @@ Contract for popup pages.
 | `BackgroundInputTransparent` | `bool` | Allow taps through background |
 | `DisableWhenIsAnimating` | `bool` | Disable interaction during animation |
 | `SafeAreaAsPadding` | `SafeAreaAsPadding` | Safe area edge handling |
+| `AvoidKeyboard` | `bool` | Adjust content position to avoid virtual keyboard |
 | `PopupContent` | `View?` | Content of the popup |
 | `ActualContent` | `View?` | Actual visual content |
 
@@ -312,6 +313,7 @@ Main popup control with lifecycle events and animations.
 | `BackgroundInputTransparentProperty` | `bool` | false | Input transparency |
 | `DisableWhenIsAnimatingProperty` | `bool` | true | Disable during animation |
 | `SafeAreaAsPaddingProperty` | `SafeAreaAsPadding` | Top\|Right\|Left\|Bottom | Safe area handling |
+| `AvoidKeyboardProperty` | `bool` | false | Adjust content position to avoid virtual keyboard |
 
 #### Virtual Methods
 
