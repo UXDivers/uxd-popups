@@ -246,4 +246,4 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ---
 
-Made with ❤️ by <a href="https://uxdivers.com">UXDivers</a>
+Made with ❤️ by [UXDivers](https://uxdivers.com)
