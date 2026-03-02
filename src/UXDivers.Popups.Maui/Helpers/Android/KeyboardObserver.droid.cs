@@ -36,17 +36,29 @@ internal class KeyboardObserver : Java.Lang.Object, IOnApplyWindowInsetsListener
         _popupPage.UpdateKeyboardOffset(0);
     }
 
+    // On net10 and above, the method signature for IOnApplyWindowInsetsListener has changed to return a nullable WindowInsetsCompat
+#if NET10_0_OR_GREATER
+    public WindowInsetsCompat? OnApplyWindowInsets(AView? view, WindowInsetsCompat? insets)
+    {
+        if (view is null || insets is null)
+        {
+            _popupPage.UpdateKeyboardOffset(0);
+            return insets;
+        }
+        
+#else
     public WindowInsetsCompat OnApplyWindowInsets(AView view, WindowInsetsCompat insets)
     {
+#endif
         var imeInsets = insets.GetInsets(WindowInsetsCompat.Type.Ime());
 
-        double keyboardHeightPx = imeInsets.Bottom;
+        double keyboardHeightPx = imeInsets?.Bottom ?? 0;
 
         // Subtract system bars bottom to avoid double-padding when safe area bottom is active
         if (_popupPage.SafeAreaAsPadding.HasFlag(SafeAreaAsPadding.Bottom))
         {
             var systemBarsInsets = insets.GetInsets(WindowInsetsCompat.Type.SystemBars());
-            keyboardHeightPx -= systemBarsInsets.Bottom;
+            keyboardHeightPx -= systemBarsInsets?.Bottom ?? 0;
         }
 
         keyboardHeightPx = Math.Max(0, keyboardHeightPx);

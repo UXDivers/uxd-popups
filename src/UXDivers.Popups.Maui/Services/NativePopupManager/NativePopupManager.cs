@@ -61,4 +61,14 @@ internal partial class NativePopupManager : INativePopupManager
         
         throw new ArgumentException("The provided popup does not inherit from PopupPage", nameof(popup));
     }
+
+#if !(ANDROID || IOS || WINDOWS || MACCATALYST)
+    // Fallback implementation for non-platform targets. Always thrown for non-platform targets.
+    public Task CloseNativeViewAsync(object nativePopup)
+    {
+        throw new PlatformNotSupportedException(
+            "Native popup operations require a platform-specific target framework (e.g. net10.0-android, net10.0-ios, net10.0-windows)."
+        );
+    }
+#endif
 }

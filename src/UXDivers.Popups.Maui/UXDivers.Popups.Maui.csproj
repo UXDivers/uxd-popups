@@ -11,7 +11,7 @@
 
 		<!-- Nuget -->
         <PackageId>UXDivers.Popups.Maui</PackageId>
-        <Version>0.9.1</Version>
+        <Version>0.9.2</Version>
         <Authors>UXDivers</Authors>
         <Company>UXDivers</Company>
         <Summary>A comprehensive popup controls library for .NET MAUI featuring 9 ready-to-use components (Toast, ActionSheets, Forms, Modals, and more), 10+ smooth animations, full MVVM support with dependency injection, dark/light theming, and cross-platform compatibility for iOS, Android, Windows, and Mac Catalyst.</Summary>
@@ -44,6 +44,29 @@
         <Compile Remove="obj\**" />
         <EmbeddedResource Remove="obj\**" />
         <None Remove="obj\**" />
+    </ItemGroup>
+
+    <!-- Exclude platform-specific files from compilation based on the target framework -->
+    <ItemGroup Condition="!$(TargetFramework.Contains(-ios)) And !$(TargetFramework.Contains(-android)) And !$(TargetFramework.Contains(-windows)) And !$(TargetFramework.Contains(-maccatalyst))">
+        <Compile Remove="**\*.droid.cs" />
+        <Compile Remove="**\*.droid.*.cs" />
+        <None Include="**\*.droid.cs" />
+        <None Include="**\*.droid.*.cs" />
+
+        <Compile Remove="**\*.mac.cs" />
+        <Compile Remove="**\*.mac.*.cs" />
+        <None Include="**\*.mac.cs" />
+        <None Include="**\*.mac.*.cs" />
+
+        <Compile Remove="**\*.win.cs" />
+        <Compile Remove="**\*.win.*.cs" />
+        <None Include="**\*.win.cs" />
+        <None Include="**\*.win.*.cs" />
+
+        <Compile Remove="**\*.ios.cs" />
+        <Compile Remove="**\*.ios.*.cs" />
+        <None Include="**\*.ios.cs" />
+        <None Include="**\*.ios.*.cs" />
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework.Contains(-ios))">
