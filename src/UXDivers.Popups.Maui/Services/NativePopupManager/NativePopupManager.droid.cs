@@ -16,7 +16,7 @@ internal partial class NativePopupManager
     /// <param name="popup">The popup page to display.</param>
     /// <returns>A Task that resolves with the native view object.</returns>
     /// <exception cref="NullReferenceException">Thrown if the root view or native view is invalid.</exception>
-    public Task<object> ShowNativeViewAsync(PopupPage popup)
+    private Task<object> ShowPlatformNativeViewAsync(PopupPage popup)
     {
         if (popup == null)
         {

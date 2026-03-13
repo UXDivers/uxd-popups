@@ -16,7 +16,7 @@ internal partial class NativePopupManager
     /// <param name="popup">The popup page to display.</param>
     /// <returns>A Task that resolves with the native view object.</returns>
     /// <exception cref="ArgumentException">Thrown if the popup cannot be converted to a native view.</exception>
-    public Task<object> ShowNativeViewAsync(PopupPage popup)
+    private Task<object> ShowPlatformNativeViewAsync(PopupPage popup)
     {
         var mauiContext = GetMauiContext();
 
