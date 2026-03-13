@@ -16,7 +16,7 @@ internal partial class NativePopupManager
     /// <param name="popupPage">The popup page to display.</param>
     /// <returns>A Task that resolves with the native view object.</returns>
     /// <exception cref="ArgumentException">Thrown if the popup cannot be converted to a native view.</exception>
-    public async Task<object> ShowNativeViewAsync(PopupPage popupPage)
+    private async Task<object> ShowPlatformNativeViewAsync(PopupPage popupPage)
     {
         ArgumentNullException.ThrowIfNull(popupPage);
 
