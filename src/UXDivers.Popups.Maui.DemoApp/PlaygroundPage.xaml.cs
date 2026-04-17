@@ -72,6 +72,7 @@ public partial class PlaygroundPage : PopupPage
             AppearingAnimation = appearing,
             DisappearingAnimation = disappearing,
             CloseWhenBackgroundIsClicked = closeOnBackgroundClicked.IsToggled,
+            PreventBackButtonDismiss = preventBackButtonDismiss.IsToggled,
             BackgroundInputTransparent = backgroundInputTransparent.IsToggled,
             BackgroundOpacity = overlayOpacity.Value / 100,
             CloseButtonIconText = MaterialSymbolsFont.Close,

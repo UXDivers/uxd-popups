@@ -33,6 +33,13 @@ public interface IPopupPage
     bool DisableWhenIsAnimating { get; }
 
     /// <summary>
+    /// Gets a value indicating whether the popup should prevent being dismissed by the Android back button.
+    /// When true, the popup will not be closed when the user presses the back button on Android,
+    /// even if the global <c>closePopupOnBackAndroid</c> option is enabled.
+    /// </summary>
+    bool PreventBackButtonDismiss { get; }
+
+    /// <summary>
     /// Gets the command to execute when the background is clicked.
     /// </summary>
     ICommand BackgroundClickedCommand { get; }
