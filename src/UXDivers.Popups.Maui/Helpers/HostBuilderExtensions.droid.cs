@@ -51,6 +51,14 @@ public static partial class HostBuilderExtensions
             // If there is a popup, close it and consume Back
             if (stack.Count > 0)
             {
+                var topPopup = stack[stack.Count - 1];
+
+                // If the topmost popup prevents back button dismiss, consume the back press without closing
+                if (topPopup.PreventBackButtonDismiss)
+                {
+                    return;
+                }
+
                 _ = IPopupService.Current.PopAsync();
                 return;
             }

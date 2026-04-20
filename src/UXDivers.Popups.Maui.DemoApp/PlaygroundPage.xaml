@@ -144,6 +144,12 @@
                     x:Name="closeOnBackgroundClicked"
                     PropertyName="Close when tap outside"
                 />
+                
+                <!-- Property Card -->
+                <local:SwitchTemplate
+                    x:Name="preventBackButtonDismiss"
+                    PropertyName="Prevent Back Button dismiss"
+                />
 
                 <!-- Property Card -->
                 <local:SwitchTemplate

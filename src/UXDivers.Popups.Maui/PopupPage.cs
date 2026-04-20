@@ -276,6 +276,27 @@ namespace UXDivers.Popups.Maui
         }
 
         /// <summary>
+        /// Bindable property indicating whether the popup should prevent being dismissed by the Android back button.
+        /// </summary>
+        public static readonly BindableProperty PreventBackButtonDismissProperty = BindableProperty.Create(
+            nameof(PreventBackButtonDismiss),
+            typeof(bool),
+            typeof(PopupPage),
+            false);
+
+        /// <summary>
+        /// Gets or sets whether the popup should prevent being dismissed by the Android back button.
+        /// When true, the popup will not be closed when the user presses the back button on Android,
+        /// even if the global <c>closePopupOnBackAndroid</c> option is enabled.
+        /// Default is false.
+        /// </summary>
+        public bool PreventBackButtonDismiss
+        {
+            get => (bool)GetValue(PreventBackButtonDismissProperty);
+            set => SetValue(PreventBackButtonDismissProperty, value);
+        }
+
+        /// <summary>
         /// Gets or sets the content of the popup page.
         /// </summary>
         public View? PopupContent
