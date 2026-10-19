@@ -15,6 +15,27 @@ namespace UXDivers.Popups.Maui
             InsetsLayoutMarginsFromSafeArea = false;
         }
 
+        public override void SafeAreaInsetsDidChange()
+        {
+            base.SafeAreaInsetsDidChange();
+            SetNeedsLayout();
+        }
+
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
+
+            if (PopupPage is null)
+            {
+                return;
+            }
+
+            // Re-apply on every layout so rotation, landscape side flips and window resizes are covered
+            var insets = SafeAreaInsets;
+            PopupPage.ApplySafeAreaInsets(new Thickness(insets.Left, insets.Top, insets.Right, insets.Bottom));
+            PopupPage.Arrange(new Rect(0, 0, Bounds.Width, Bounds.Height));
+        }
+
         public override UIView? HitTest(CGPoint point, UIEvent? uievent)
         {
             if (uievent == null)

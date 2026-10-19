@@ -399,6 +399,25 @@ namespace UXDivers.Popups.Maui
             InputTransparent = !enabled;
         }
 
+        private Thickness? _basePadding;
+
+        /// <summary>
+        /// Applies the platform safe-area insets as padding on the sides enabled by <see cref="SafeAreaAsPadding"/>.
+        /// The padding is always rebuilt from the original value, so repeated calls (e.g. on rotation) never compound.
+        /// </summary>
+        /// <param name="insets">The safe-area insets in device-independent pixels.</param>
+        internal void ApplySafeAreaInsets(Thickness insets)
+        {
+            var basePadding = _basePadding ??= Padding;
+            var safeArea = SafeAreaAsPadding;
+
+            Padding = new Thickness(
+                basePadding.Left + (safeArea.HasFlag(SafeAreaAsPadding.Left) ? insets.Left : 0),
+                basePadding.Top + (safeArea.HasFlag(SafeAreaAsPadding.Top) ? insets.Top : 0),
+                basePadding.Right + (safeArea.HasFlag(SafeAreaAsPadding.Right) ? insets.Right : 0),
+                basePadding.Bottom + (safeArea.HasFlag(SafeAreaAsPadding.Bottom) ? insets.Bottom : 0));
+        }
+
         private double _keyboardOffset;
 
         /// <summary>

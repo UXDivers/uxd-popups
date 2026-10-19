@@ -49,30 +49,8 @@ internal partial class NativePopupManager
         nativePopup.ContentMode = UIViewContentMode.ScaleToFill;
         nativePopup.InsetsLayoutMarginsFromSafeArea = false;
 
-        // Get safe area insets from the window
-        var safeAreaInsets = window.SafeAreaInsets;
-
-        // Calculate the frame based on SafeAreaInsets property
-        var frame = window.Bounds;
-        var popupSafeAreaInsets = popup.SafeAreaAsPadding;
-
-        var topInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Top) ? safeAreaInsets.Top : 0;
-        var leftInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Left) ? safeAreaInsets.Left : 0;
-        var rightInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Right) ? safeAreaInsets.Right : 0;
-        var bottomInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Bottom) ? safeAreaInsets.Bottom : 0;
-
-        //Apply safe area insets as popup padding
-        popup.Padding = new Thickness(
-            popup.Padding.Left + leftInset,
-            popup.Padding.Top + topInset,
-            popup.Padding.Right + rightInset,
-            popup.Padding.Bottom + bottomInset
-        );
-
-        // Adjust frame to respect safe area insets
-        nativePopup.Frame = frame;
-        nativePopup.AutoresizingMask = UIViewAutoresizing.None;
-        popup.Arrange(new Rect(0, 0, frame.Width, frame.Height));
+        nativePopup.Frame = window.Bounds;
+        nativePopup.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
         nativePopup.SetNeedsLayout();
 
         // Add the native popup to the window

@@ -221,6 +221,7 @@
     
     <!-- ACTION MODAL -->
     <Style x:Key="DefaultActionModalPopupStyle" TargetType="local:ActionModalPopup" BasedOn="{ StaticResource PopupBaseStyle }">
+        <Setter Property="SafeAreaAsPadding" Value="All" />
         <Setter Property="CloseButtonIconText" Value="{DynamicResource UXDPopupsCloseIconButton}" />
         <Setter Property="CloseButtonIconColor" Value="{DynamicResource TextColor}" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundColor}" />
@@ -684,6 +685,7 @@
 
     <!-- OPTIONS SHEET -->
     <Style x:Key="DefaultOptionSheetPopupStyle" TargetType="local:OptionSheetPopup" BasedOn="{ StaticResource PopupBaseStyle }">
+        <Setter Property="SafeAreaAsPadding" Value="All" />
         <Setter Property="CloseButtonIconText" Value="{DynamicResource UXDPopupsCloseIconButton}" />
         <Setter Property="CloseButtonIconColor" Value="{DynamicResource TextColor}" />
         <Setter Property="PopupBackground" Value="{DynamicResource BackgroundColor}" />

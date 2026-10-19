@@ -8,7 +8,7 @@ namespace UXDivers.Popups.Maui;
 /// Handles the display and removal of native popups on Android.
 internal partial class NativePopupManager
 {
-    private static readonly ConditionalWeakTable<Android.Views.View, KeyboardObserver> _keyboardObservers = new();
+    private static readonly ConditionalWeakTable<Android.Views.View, SafeAreaObserver> _safeAreaObservers = new();
 
     /// <summary>
     /// Displays a native view for the given popup page.
@@ -57,41 +57,6 @@ internal partial class NativePopupManager
         double widthDip = rootView.Width / density;
         double heightDip = rootView.Height / density;
 
-        // Get window insets for safe area handling
-        WindowInsets? insets = null;
-        if (OperatingSystem.IsAndroidVersionAtLeast(23))
-        {
-            insets = rootView.RootWindowInsets;
-        }
-
-        // Calculate safe area adjustments
-        double topInset = 0, bottomInset = 0, leftInset = 0, rightInset = 0;
-
-        if (insets != null)
-        {
-            if (OperatingSystem.IsAndroidVersionAtLeast(30))
-            {
-                // Modern API (Android 11+) - Get system bars and display cutout insets
-                var systemBars = insets.GetInsets(WindowInsets.Type.SystemBars());
-                var displayCutout = insets.GetInsets(WindowInsets.Type.DisplayCutout());
-
-                topInset = Math.Max(systemBars.Top, displayCutout.Top) / density;
-                bottomInset = Math.Max(systemBars.Bottom, displayCutout.Bottom) / density;
-                leftInset = Math.Max(systemBars.Left, displayCutout.Left) / density;
-                rightInset = Math.Max(systemBars.Right, displayCutout.Right) / density;
-            }
-            else
-            {
-                // Legacy API (Android 6.0 - 10) - Use deprecated system window insets
-#pragma warning disable CS0618 // Type or member is obsolete
-                topInset = insets.SystemWindowInsetTop / density;
-                bottomInset = insets.SystemWindowInsetBottom / density;
-                leftInset = insets.SystemWindowInsetLeft / density;
-                rightInset = insets.SystemWindowInsetRight / density;
-#pragma warning restore CS0618 // Type or member is obsolete
-            }
-        }
-
         popup.Measure(widthDip, heightDip);
         popup.Arrange(new Rect(0, 0, widthDip, heightDip));
 
@@ -99,29 +64,12 @@ internal partial class NativePopupManager
             ViewGroup.LayoutParams.MatchParent,
             ViewGroup.LayoutParams.MatchParent);
 
-        // Apply safe area padding to the native view based on SafeAreaInsets property
-        var popupSafeAreaInsets = popup.SafeAreaAsPadding;
-        var finalTopInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Top) ? topInset : 0;
-        var finalLeftInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Left) ? leftInset : 0;
-        var finalRightInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Right) ? rightInset : 0;
-        var finalBottomInset = popupSafeAreaInsets.HasFlag(SafeAreaAsPadding.Bottom) ? bottomInset : 0;
-
-        // nativeView.SetPadding(finalLeftInset, finalTopInset, finalRightInset, finalBottomInset);
-        popup.Padding = new Thickness(
-            popup.Padding.Left + finalLeftInset,
-            popup.Padding.Top + finalTopInset,
-            popup.Padding.Right + finalRightInset,
-            popup.Padding.Bottom + finalBottomInset
-        );
-
         rootView.AddView(nativeView, layoutParams);
 
-        if (popup.AvoidKeyboard)
-        {
-            var keyboardObserver = new KeyboardObserver(popup);
-            keyboardObserver.Start(nativeView);
-            _keyboardObservers.AddOrUpdate(nativeView, keyboardObserver);
-        }
+        // Keep safe-area padding and keyboard offset in sync with window insets
+        var safeAreaObserver = new SafeAreaObserver(popup);
+        safeAreaObserver.Start(nativeView);
+        _safeAreaObservers.AddOrUpdate(nativeView, safeAreaObserver);
 
         return Task.FromResult<object>(nativeView);
     }
@@ -147,12 +95,12 @@ internal partial class NativePopupManager
             return Task.CompletedTask;
         }
 
-        // Stop keyboard observer if active
-        if (_keyboardObservers.TryGetValue(nativeView, out var keyboardObserver))
+        // Stop observing window insets and release the observer
+        if (_safeAreaObservers.TryGetValue(nativeView, out var safeAreaObserver))
         {
-            keyboardObserver.Stop();
-            keyboardObserver.Dispose();
-            _keyboardObservers.Remove(nativeView);
+            safeAreaObserver.Stop();
+            safeAreaObserver.Dispose();
+            _safeAreaObservers.Remove(nativeView);
         }
 
         // Remove the native view from its parent and dispose of it
